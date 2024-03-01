@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using inner.masterApi.EntityFrameworkCore;
 
@@ -11,9 +12,10 @@ using inner.masterApi.EntityFrameworkCore;
 namespace inner.masterApi.Migrations
 {
     [DbContext(typeof(masterApiDbContext))]
-    partial class masterApiDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240213195227_Create_Categoria")]
+    partial class Create_Categoria
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
