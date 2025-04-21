@@ -23,6 +23,9 @@ using System.IO;
 
 namespace inner.masterApi.Web.Host.Startup
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public class Startup
     {
         private const string _defaultCorsPolicyName = "localhost";
@@ -32,12 +35,19 @@ namespace inner.masterApi.Web.Host.Startup
         private readonly IConfigurationRoot _appConfiguration;
         private readonly IWebHostEnvironment _hostingEnvironment;
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="env"></param>
         public Startup(IWebHostEnvironment env)
         {
             _hostingEnvironment = env;
             _appConfiguration = env.GetAppConfiguration();
         }
 
+        /// <summary>
+        /// 
+        /// / </summary>
         public void ConfigureServices(IServiceCollection services)
         {
             //MVC
@@ -89,6 +99,12 @@ namespace inner.masterApi.Web.Host.Startup
             );
         }
 
+        /// <summary>
+        /// /// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+        /// </summary>
+        /// <param name="app"></param>
+        /// <param name="env"></param>
+        /// <param name="loggerFactory"></param>
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILoggerFactory loggerFactory)
         {
             app.UseAbp(options => { options.UseAbpRequestLocalization = false; }); // Initializes ABP framework.
@@ -103,14 +119,6 @@ namespace inner.masterApi.Web.Host.Startup
 
             app.UseAbpRequestLocalization();
 
-
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapHub<AbpCommonHub>("/signalr");
-                endpoints.MapControllerRoute("default", "{controller=Home}/{action=Index}/{id?}");
-                endpoints.MapControllerRoute("defaultWithArea", "{area}/{controller=Home}/{action=Index}/{id?}");
-            });
-
             // Enable middleware to serve generated Swagger as a JSON endpoint
             app.UseSwagger(c => { c.RouteTemplate = "swagger/{documentName}/swagger.json"; });
 
@@ -119,6 +127,13 @@ namespace inner.masterApi.Web.Host.Startup
             {
                 options.SwaggerEndpoint($"/swagger/{_apiVersion}/swagger.json", $"masterApi API {_apiVersion}");
                 options.RoutePrefix = string.Empty;  // Exibe Swagger UI na raiz, se preferir.
+            });
+
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapHub<AbpCommonHub>("/signalr");
+                endpoints.MapControllerRoute("default", "{controller=Home}/{action=Index}/{id?}");
+                endpoints.MapControllerRoute("defaultWithArea", "{area}/{controller=Home}/{action=Index}/{id?}");
             });
         }
         
