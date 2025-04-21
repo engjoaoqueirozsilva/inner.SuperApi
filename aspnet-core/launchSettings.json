@@ -1,0 +1,12 @@
+{
+  "profiles": {
+    "Docker Compose": {
+      "commandName": "DockerCompose",
+      "commandVersion": "1.0",
+      "serviceActions": {
+        "inner.masterapi.web.host": "StartDebugging"
+      },
+      "applicationUrl": "http://0.0.0.0:8080"
+    }
+  }
+}

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace inner.masterApi.Treino.Dto
 {
-    public class CreateTreinoDto : IShouldNormalize
+    public class CreateTreinoDto 
     {
         [Required]
         [StringLength(150)]
@@ -25,9 +25,5 @@ namespace inner.masterApi.Treino.Dto
         public string Fundamento6 { get; set; }
         public DateTime CreationTime { get; set; }
 
-        public void Normalize()
-        {
-            throw new NotImplementedException();
-        }
     }
 }
