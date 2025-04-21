@@ -12,8 +12,11 @@
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Remove="NovaPasta\**" />
     <Compile Remove="Upload\**" />
+    <EmbeddedResource Remove="NovaPasta\**" />
     <EmbeddedResource Remove="Upload\**" />
+    <None Remove="NovaPasta\**" />
     <None Remove="Upload\**" />
   </ItemGroup>
   <ItemGroup>

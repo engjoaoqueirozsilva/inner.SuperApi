@@ -15,6 +15,7 @@ namespace inner.masterApi.EntityFrameworkCore
         public DbSet<inner.masterApi.Treino.Treino> Treinos{ get; set; }
         public DbSet<inner.masterApi.Modalidade.Modalidade> Modalidades { get; set; }
         public DbSet<inner.masterApi.Atleta.Atleta> Atletas { get; set; }
+        public DbSet<inner.masterApi.Categoria.Categoria> Categorias { get; set; }
 
         public masterApiDbContext(DbContextOptions<masterApiDbContext> options)
             : base(options)

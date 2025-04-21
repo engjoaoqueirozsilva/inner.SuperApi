@@ -57,12 +57,12 @@ namespace inner.masterApi.Web.Host.Startup
             services.AddSignalR();
 
             // Configure CORS for angular2 UI
-            services.AddCors(
-                options => options.AddPolicy(
+            services.AddCors(options =>
+            {
+                options.AddPolicy(
                     _defaultCorsPolicyName,
                     builder => builder
                         .WithOrigins(
-                            // App:CorsOrigins in appsettings.json can contain more than one address separated by comma.
                             _appConfiguration["App:CorsOrigins"]
                                 .Split(",", StringSplitOptions.RemoveEmptyEntries)
                                 .Select(o => o.RemovePostFix("/"))
@@ -70,9 +70,9 @@ namespace inner.masterApi.Web.Host.Startup
                         )
                         .AllowAnyHeader()
                         .AllowAnyMethod()
-                        .AllowCredentials()
-                )
-            );
+                );
+            });
+
 
             // Swagger - Enable this line and the related lines in Configure method to enable swagger UI
             ConfigureSwagger(services);
@@ -114,15 +114,12 @@ namespace inner.masterApi.Web.Host.Startup
             // Enable middleware to serve generated Swagger as a JSON endpoint
             app.UseSwagger(c => { c.RouteTemplate = "swagger/{documentName}/swagger.json"; });
 
-            // Enable middleware to serve swagger-ui assets (HTML, JS, CSS etc.)
+            // Enable middleware to serve Swagger UI
             app.UseSwaggerUI(options =>
             {
-                // specifying the Swagger JSON endpoint.
                 options.SwaggerEndpoint($"/swagger/{_apiVersion}/swagger.json", $"masterApi API {_apiVersion}");
-                options.IndexStream = () => Assembly.GetExecutingAssembly()
-                    .GetManifestResourceStream("inner.masterApi.Web.Host.wwwroot.swagger.ui.index.html");
-                options.DisplayRequestDuration(); // Controls the display of the request duration (in milliseconds) for "Try it out" requests.  
-            }); // URL: /swagger
+                options.RoutePrefix = string.Empty;  // Exibe Swagger UI na raiz, se preferir.
+            });
         }
         
         private void ConfigureSwagger(IServiceCollection services)
