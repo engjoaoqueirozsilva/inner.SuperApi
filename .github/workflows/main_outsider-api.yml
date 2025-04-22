@@ -24,7 +24,7 @@ jobs:
           dotnet-version: '6.x'
 
       - name: Build with dotnet
-        run: dotnet build -c Release -o "aspnet-core/src/inner.masterApi.Web.Host"
+        run: dotnet build -c Release -o "aspnet-core/src/inner.masterApi.Web.Host/inner.masterApi.Web.Host.csproj"
 
       - name: dotnet publish
         run: dotnet publish -c Release -o "aspnet-core/src/inner.masterApi.Web.Host"
