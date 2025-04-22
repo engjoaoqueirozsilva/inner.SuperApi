@@ -21,13 +21,13 @@ jobs:
           dotnet-version: '6.x'
 
       - name: Restore dependencies
-        run: dotnet restore src/inner.masterApi.Web.Host/inner.masterApi.Web.Host.csproj
+        run: dotnet restore aspnet-core/src/inner.masterApi.sln
 
       - name: Build with dotnet
-        run: dotnet build src/inner.masterApi.Web.Host/inner.masterApi.Web.Host.csproj --configuration Release --no-restore
+        run: dotnet build aspnet-core/src/inner.masterApi.sln --configuration Release --no-restore
 
       - name: dotnet publish
-        run: dotnet publish src/inner.masterApi.Web.Host/inner.masterApi.Web.Host.csproj --configuration Release --output ./publish --no-build
+        run: dotnet publish aspnet-core/src/inner.masterApi.sln --configuration Release --output ./publish --no-build
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
