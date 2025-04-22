@@ -24,10 +24,10 @@ jobs:
           dotnet-version: '6.x'
 
       - name: Build with dotnet
-        run: dotnet build --configuration Release
+        run: dotnet build -c Release -o "aspnet-core/src/inner.masterApi.Web.Host"
 
       - name: dotnet publish
-        run: dotnet publish -c Release -o "aspnet-core/inner.masterApi.sln"
+        run: dotnet publish -c Release -o "aspnet-core/src/inner.masterApi.Web.Host"
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
