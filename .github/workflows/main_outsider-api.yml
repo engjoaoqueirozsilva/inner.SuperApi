@@ -1,0 +1,67 @@
+name: Build and deploy ASP.Net Core app to Azure Web App - outsider-api
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: windows-latest
+    permissions:
+      contents: read
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up .NET Core
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '6.x'
+
+      - name: Restore dependencies
+        run: dotnet restore aspnet-core/inner.masterApi.sln
+
+      - name: Build with dotnet
+        run: dotnet build aspnet-core/inner.masterApi.sln --configuration Release --no-restore
+
+      - name: dotnet publish
+        run: dotnet publish aspnet-core/inner.masterApi.sln --configuration Release --output ./publish --no-build
+
+      - name: Upload artifact for deployment job
+        uses: actions/upload-artifact@v4
+        with:
+          name: .net-app
+          path: ./publish
+
+  deploy:
+    runs-on: windows-latest
+    needs: build
+    environment:
+      name: 'Production'
+      url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
+    permissions:
+      id-token: write
+      contents: read
+
+    steps:
+      - name: Download artifact from build job
+        uses: actions/download-artifact@v4
+        with:
+          name: .net-app
+
+      - name: Login to Azure
+        uses: azure/login@v2
+        with:
+          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_7685CD673D3444B387625E1A98D0FEC5 }}
+          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_A3F4830A70E4423A8EBBCD8E733BF019 }}
+          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_694E5606ACD448C2899AD3EAA4F162F0 }}
+
+      - name: Deploy to Azure Web App
+        id: deploy-to-webapp
+        uses: azure/webapps-deploy@v3
+        with:
+          app-name: 'outsider-api'
+          slot-name: 'Production'
+          package: .

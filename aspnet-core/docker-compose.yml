@@ -1,0 +1,10 @@
+services:
+  inner.masterapi.web.host:
+    image: ${DOCKER_REGISTRY-}innermasterapiwebhost
+    build:
+      context: .
+      dockerfile: src/inner.masterApi.Web.Host/Dockerfile
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+      - ASPNETCORE_URLS=http://+:8080
+    restart: unless-stopped

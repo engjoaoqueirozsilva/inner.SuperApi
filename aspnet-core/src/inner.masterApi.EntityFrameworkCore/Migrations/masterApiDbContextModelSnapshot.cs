@@ -1626,6 +1626,30 @@ namespace inner.masterApi.Migrations
                     b.ToTable("AbpUsers");
                 });
 
+            modelBuilder.Entity("inner.masterApi.Categoria.Categoria", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int>("LimiteIdade")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Modalidade")
+                        .HasColumnType("int");
+
+                    b.Property<string>("NomeCategoria")
+                        .IsRequired()
+                        .HasMaxLength(150)
+                        .HasColumnType("nvarchar(150)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Categoria");
+                });
+
             modelBuilder.Entity("inner.masterApi.Modalidade.Modalidade", b =>
                 {
                     b.Property<int>("Id")

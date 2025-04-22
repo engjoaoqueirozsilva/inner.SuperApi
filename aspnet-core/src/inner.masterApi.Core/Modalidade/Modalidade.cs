@@ -13,6 +13,7 @@ namespace inner.masterApi.Modalidade
     [Table("Modalidade")]
     public class Modalidade : Entity
     {
+        public int Id { get; set; }
         [Required]
         [StringLength(150)]
         public string NomeModalidade { get; set; }

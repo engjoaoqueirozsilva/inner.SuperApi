@@ -23,6 +23,9 @@ using System.IO;
 
 namespace inner.masterApi.Web.Host.Startup
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public class Startup
     {
         private const string _defaultCorsPolicyName = "localhost";
@@ -32,12 +35,19 @@ namespace inner.masterApi.Web.Host.Startup
         private readonly IConfigurationRoot _appConfiguration;
         private readonly IWebHostEnvironment _hostingEnvironment;
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="env"></param>
         public Startup(IWebHostEnvironment env)
         {
             _hostingEnvironment = env;
             _appConfiguration = env.GetAppConfiguration();
         }
 
+        /// <summary>
+        /// 
+        /// / </summary>
         public void ConfigureServices(IServiceCollection services)
         {
             //MVC
@@ -57,12 +67,12 @@ namespace inner.masterApi.Web.Host.Startup
             services.AddSignalR();
 
             // Configure CORS for angular2 UI
-            services.AddCors(
-                options => options.AddPolicy(
+            services.AddCors(options =>
+            {
+                options.AddPolicy(
                     _defaultCorsPolicyName,
                     builder => builder
                         .WithOrigins(
-                            // App:CorsOrigins in appsettings.json can contain more than one address separated by comma.
                             _appConfiguration["App:CorsOrigins"]
                                 .Split(",", StringSplitOptions.RemoveEmptyEntries)
                                 .Select(o => o.RemovePostFix("/"))
@@ -70,9 +80,9 @@ namespace inner.masterApi.Web.Host.Startup
                         )
                         .AllowAnyHeader()
                         .AllowAnyMethod()
-                        .AllowCredentials()
-                )
-            );
+                );
+            });
+
 
             // Swagger - Enable this line and the related lines in Configure method to enable swagger UI
             ConfigureSwagger(services);
@@ -89,6 +99,12 @@ namespace inner.masterApi.Web.Host.Startup
             );
         }
 
+        /// <summary>
+        /// /// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+        /// </summary>
+        /// <param name="app"></param>
+        /// <param name="env"></param>
+        /// <param name="loggerFactory"></param>
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILoggerFactory loggerFactory)
         {
             app.UseAbp(options => { options.UseAbpRequestLocalization = false; }); // Initializes ABP framework.
@@ -103,6 +119,15 @@ namespace inner.masterApi.Web.Host.Startup
 
             app.UseAbpRequestLocalization();
 
+            // Enable middleware to serve generated Swagger as a JSON endpoint
+            app.UseSwagger(c => { c.RouteTemplate = "swagger/{documentName}/swagger.json"; });
+
+            // Enable middleware to serve Swagger UI
+            app.UseSwaggerUI(options =>
+            {
+                options.SwaggerEndpoint($"/swagger/{_apiVersion}/swagger.json", $"masterApi API {_apiVersion}");
+                options.RoutePrefix = string.Empty;  // Exibe Swagger UI na raiz, se preferir.
+            });
 
             app.UseEndpoints(endpoints =>
             {
@@ -110,19 +135,6 @@ namespace inner.masterApi.Web.Host.Startup
                 endpoints.MapControllerRoute("default", "{controller=Home}/{action=Index}/{id?}");
                 endpoints.MapControllerRoute("defaultWithArea", "{area}/{controller=Home}/{action=Index}/{id?}");
             });
-
-            // Enable middleware to serve generated Swagger as a JSON endpoint
-            app.UseSwagger(c => { c.RouteTemplate = "swagger/{documentName}/swagger.json"; });
-
-            // Enable middleware to serve swagger-ui assets (HTML, JS, CSS etc.)
-            app.UseSwaggerUI(options =>
-            {
-                // specifying the Swagger JSON endpoint.
-                options.SwaggerEndpoint($"/swagger/{_apiVersion}/swagger.json", $"masterApi API {_apiVersion}");
-                options.IndexStream = () => Assembly.GetExecutingAssembly()
-                    .GetManifestResourceStream("inner.masterApi.Web.Host.wwwroot.swagger.ui.index.html");
-                options.DisplayRequestDuration(); // Controls the display of the request duration (in milliseconds) for "Try it out" requests.  
-            }); // URL: /swagger
         }
         
         private void ConfigureSwagger(IServiceCollection services)
