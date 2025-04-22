@@ -57,10 +57,10 @@ jobs:
         run: dotnet restore aspnet-core/inner.masterApi.sln
       
       - name: Build with dotnet
-        run: dotnet build aspnet-core/src/inner.masterApi.Web.Host/inner.masterApi.Web.Host.csproj --configuration Release --no-restore
+        run: dotnet build aspnet-core/inner.masterApi.sln --configuration Release --no-restore
 
       - name: dotnet publish
-        run: dotnet publish -c Release -o aspnet-core/src/inner.masterApi.Web.Host/inner.masterApi.Web.Host.csproj 
+        run: dotnet publish aspnet-core/inner.masterApi.sln --configuration Release --output ./publish --no-build
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
