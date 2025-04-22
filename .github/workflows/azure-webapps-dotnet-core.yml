@@ -54,7 +54,7 @@ jobs:
             ${{ runner.os }}-nuget-
 
       - name: Restore dependencies
-        run: dotnet restore ${{env.DOTNET_ROOT}}/inner.masterApi.Web.Host.csproj
+        run: dotnet restore aspnet-core/inner.masterApi.sln
       
       - name: Build with dotnet
         run: dotnet build ${{env.DOTNET_ROOT}}/inner.masterApi.Web.Host.csproj --configuration Release --no-restore
