@@ -1,5 +1,6 @@
 ﻿using Abp.Domain.Repositories;
 using inner.masterApi.Modalidade.Dto;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -34,7 +35,7 @@ namespace inner.masterApi.Modalidade
                 RespTecnico = createModalidadeDto.RespTecnico,
                 AuxTecnico = createModalidadeDto.AuxTecnico,
                 Obs = createModalidadeDto.Obs,
-                CreationTime = createModalidadeDto.CreationTime
+                CreationTime = DateTime.UtcNow,
             });
 
             return teste;
