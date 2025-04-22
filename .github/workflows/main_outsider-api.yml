@@ -21,7 +21,7 @@ jobs:
           dotnet-version: '6.x'
 
       - name: Restore dependencies
-        run: dotnet restore src/Outsider.API/Outsider.API.csproj
+        run: dotnet restore src/inner.masterApi.Web.Host/inner.masterApi.Web.Host.csproj
 
       - name: Build with dotnet
         run: dotnet build src/inner.masterApi.Web.Host/inner.masterApi.Web.Host.csproj --configuration Release --no-restore
