@@ -27,7 +27,7 @@ namespace inner.masterApi.Configuration
         {
             var builder = new ConfigurationBuilder()
                 .SetBasePath(path)
-                .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
+                .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
 
             if (!environmentName.IsNullOrWhiteSpace())
             {

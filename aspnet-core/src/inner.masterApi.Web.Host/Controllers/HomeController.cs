@@ -33,7 +33,7 @@ namespace inner.masterApi.Web.Host.Controllers
         {
             if (message.IsNullOrEmpty())
             {
-                message = "This is a test notification, created at " + Clock.Now;
+                message = "This is a test notification, created at ";
             }
 
             var defaultTenantAdmin = new UserIdentifier(1, 2);

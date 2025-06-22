@@ -26,7 +26,7 @@ namespace inner.masterApi.Upload
             try
             {
                 string path = Path.Combine(@"C:\inner\MoVE\");
-                string fileTextDate = DateTime.Now.ToString().Replace("/","").Replace(":","").Replace(" ", "_");
+                string fileTextDate = DateTime.UtcNow.ToString().Replace("/","").Replace(":","").Replace(" ", "_");
 
                 foreach (var file in files)
                 {
